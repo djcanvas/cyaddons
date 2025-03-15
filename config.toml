@@ -1,0 +1,69 @@
+
+[location_message]
+	ss = false
+	early_enter_alert = false
+	paste_early_enters_into_party_chat = false
+	toggle_selected_location_message = false
+	pre_4 = false
+	pre_3 = false
+	fast_leap = false
+	pre_2 = false
+	mid = false
+	location_notification_sound = "note.harp"
+	location_notifications = false
+	core = false
+	location_notification_sound_times_to_play = "1"
+	safespot_2 = false
+	tunnel = false
+
+[general]
+	auto_potion_bag = false
+	hide_players = true
+	compact_hoppity = false
+
+	[general.auto_refill]
+		sp_booms = false
+		sp_booms_threshold = 32
+		jerries = false
+		pearls = false
+		jerries_threshold = 32
+		pearls_threshold = 8
+
+	[general.mask_gui]
+		ready_indicator_color = 10
+		cooldown_timer_color = 12
+		mask_gui = false
+		mask_name_color = 6
+
+	[general.blood]
+		bc_helper = false
+
+[chat]
+	chat_cleaner = false
+	auto_chat_p = false
+
+[secrets]
+	show_clicked_secrets = false
+	clicked_secrets_sound = false
+	pitch_of_secret_click_sound = 100.0
+	select_secret_clicked_sound = 0
+	volume_of_secret_click_sound = 100.0
+	clicked_secrets_color = "255,0,255,0"
+
+[notifications]
+	wish = false
+	section_done = false
+	bat = false
+	cloak = false
+	key_sound = false
+	blood = false
+	key = false
+	pet = false
+
+["f7/m7"]
+	i4helper = false
+	predev_timer = false
+	terminal_gui = false
+	crystal_info = false
+	wither_stuck_title = false
+
