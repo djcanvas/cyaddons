@@ -3,6 +3,13 @@ import { data } from "../util/data";
 import RenderLibV2 from "../../RenderLibV2";
 import { getNameByClass, getOwnClass } from "../util/player";
 
+if (!global.sharedData) {
+    global.sharedData = {};
+}
+global.sharedData.inTunnel = null;
+global.sharedData.atee2 = null;
+global.sharedData.atee3 = null;
+global.sharedData.atcore = null;
 
 // Initialize state variables
 let inp3 = false;
@@ -138,6 +145,10 @@ function worldloadd() {
     donetunnel = false;
     donesafespot = false;
     inp3 = false;
+    global.sharedData.inTunnel = null;
+    global.sharedData.atee2 = null;
+    global.sharedData.atee3 = null;
+    global.sharedData.atcore = null;
    
 }
 
@@ -150,33 +161,25 @@ register("worldUnload", () => {
 
 // Handle world loading
 register("worldLoad", () => {
-    done1st = false;
-    doneee2 = false;
-    doneee3 = false;
-    donecore = false;
-    donetunnel = false;
-    donesafespot = false;
-    inp3 = false;
+    worldloadd()
     
 });
 
-// Player location detection
 register("step", () => {
     if (!inp3 || !config.eetitles) return;
     
-    // Section 1 detection (Entrance area)
     if ((Player.getRenderX() >= 90) && (Player.getRenderZ() <= 124)) {
         World.getAllPlayers().forEach(entity => {
             if (entity.isInvisible() || entity.getPing() !== 1) return;
             
-            // EE2 to normal EE2
+            // ee2 to normal ee2
             if (!doneee2) {
-                if ((((entity.getX()) <= 59.3) && ((entity.getX()) >= 55) && 
-                     ((entity.getY()) <= 110) && ((entity.getY()) >= 108.5) && 
-                     ((entity.getZ()) <= 132.3) && ((entity.getZ()) >= 129.7))) {
+                if (((entity.getX() <= 59.3) && (entity.getX() >= 55) && 
+                    (entity.getY() <= 110) && (entity.getY() >= 108.5) && 
+                    (entity.getZ() <= 132.3) && (entity.getZ() >= 129.7))) {
                     doneee2 = true;
                     dingloop();
-                    
+                    global.sharedData.atee2 = entity.getName();
                     overlay1.title = `&b${entity.getName()} is at ee2`;
                     if (config.sendchatmessage) ChatLib.command(`party chat ${entity.getName()} is at ee2`);
                     overlay1.render = true;
@@ -187,29 +190,31 @@ register("step", () => {
                 }
             }
             
-            // EE to 1st term
+            // ee2 to normal
             if (!done1st) {
-                if (((entity.getX()) <= 80.3) && ((entity.getX()) >= 67.7) && 
-                    ((entity.getY()) <= 113) && ((entity.getY()) >= 108.5) && 
-                    ((entity.getZ()) <= 128.3) && ((entity.getZ()) >= 125.7)) {
+                if ((entity.getX() <= 80.3) && (entity.getX() >= 67.7) && 
+                    (entity.getY() <= 113) && (entity.getY() >= 108.5) && 
+                    (entity.getZ() <= 128.3) && (entity.getZ() >= 125.7)) {
+                    barknoises();
                     done1st = true;
                 }
-            }
+            } 
             
-            // EE to 1st term (alternate)
+            // ee to 1st term
             if (!done1st) {
-                if (((entity.getX()) <= 70.3) && ((entity.getX()) >= 67.7) && 
-                    ((entity.getY()) <= 113) && ((entity.getY()) >= 108.5) && 
-                    ((entity.getZ()) < 125.7) && ((entity.getZ()) >= 121.987)) {
+                if ((entity.getX() <= 70.3) && (entity.getX() >= 67.7) && 
+                    (entity.getY() <= 113) && (entity.getY() >= 108.5) && 
+                    (entity.getZ() < 125.7) && (entity.getZ() >= 121.987)) {
+                    barknoises();
                     done1st = true;
                 }
-            }
+            } 
             
-            // EE to 2nd dev
+            // ee to 2nd dev
             if (!doneee2) {
-                if (((entity.getX()) <= 62.3) && ((entity.getX()) >= 59) && 
-                    ((entity.getY()) <= 134) && ((entity.getY()) >= 131.5) && 
-                    ((entity.getZ()) <= 140.3) && ((entity.getZ()) >= 137.7)) {
+                if ((entity.getX() <= 62.3) && (entity.getX() >= 59) && 
+                    (entity.getY() <= 134) && (entity.getY() >= 131.5) && 
+                    (entity.getZ() <= 140.3) && (entity.getZ() >= 137.7)) {
                     dingloop();
                     overlay1.title = `&b${entity.getName()} is at 2nd Dev`;
                     if (config.sendchatmessage) ChatLib.command(`party chat ${entity.getName()} is at 2nd Dev`);
@@ -220,29 +225,28 @@ register("step", () => {
                         overlayregister1.unregister();
                     }, 2000);
                 }
-            }
+            } 
             
             // 1st term safespot
             if (!donesafespot) {
-                if (((entity.getX()) <= 69.7) && ((entity.getX()) >= 67.3) && 
-                    ((entity.getY()) <= 109.2) && ((entity.getY()) >= 109) && 
-                    ((entity.getZ()) <= 122) && ((entity.getZ()) >= 121.9)) {
+                if ((entity.getX() <= 69.7) && (entity.getX() >= 67.3) && 
+                    (entity.getY() <= 109.2) && (entity.getY() >= 109) && 
+                    (entity.getZ() <= 122) && (entity.getZ() >= 121.9)) {
                     dingloop();
                     overlay1.title = `&b${entity.getName()} is at 1st term safespot`;
                     donesafespot = true;
-                    overlay1.render = true;
                     setTimeout(() => {
                         overlay1.render = false;
                         overlayregister1.unregister();
                     }, 2000);
                 }
-            }
+            } 
             
             // 3rd term safespot
             if (!donesafespot) {
-                if (((entity.getX()) <= 48.7) && ((entity.getX()) >= 46.3) && 
-                    ((entity.getY()) <= 109.2) && ((entity.getY()) >= 109) && 
-                    ((entity.getZ()) <= 122) && ((entity.getZ()) >= 121.9)) {
+                if ((entity.getX() <= 48.7) && (entity.getX() >= 46.3) && 
+                    (entity.getY() <= 109.2) && (entity.getY() >= 109) && 
+                    (entity.getZ() <= 122) && (entity.getZ() >= 121.9)) {
                     dingloop();
                     overlay1.title = `&b${entity.getName()} is at 3rd term safespot`;
                     donesafespot = true;
@@ -253,20 +257,19 @@ register("step", () => {
                     }, 2000);
                 }
             }
-        });
-    }
+        }); // get all players
+    }  // self in s1
     
-    // Section 2 detection (EE3 area)
     if ((Player.getRenderX() >= 16) && (Player.getRenderZ() >= 121) && (!doneee3)) {
         World.getAllPlayers().forEach(entity => {
             if (entity.isInvisible() || entity.getPing() !== 1) return;
             
-            // Normal EE3 (higher)
-            if (((entity.getX()) <= 7.7) && ((entity.getX()) >= 5.95) && 
-                ((entity.getY()) <= 114) && ((entity.getY()) >= 113) && 
-                ((entity.getZ()) <= 106.1) && ((entity.getZ()) >= 103)) {
+            // normal ee3 (higher)
+            if ((entity.getX() <= 7.7) && (entity.getX() >= 5.95) && 
+                (entity.getY() <= 114) && (entity.getY() >= 113) && 
+                (entity.getZ() <= 106.1) && (entity.getZ() >= 103)) {
                 dingloop();
-                
+                global.sharedData.atee3 = entity.getName();
                 overlay1.title = `&b${entity.getName()} is at ee 3`;
                 if (config.sendchatmessage) ChatLib.command(`party chat ${entity.getName()} is at ee 3`);
                 doneee3 = true;
@@ -278,9 +281,9 @@ register("step", () => {
             }
             
             // 3rd term 3rd section
-            if (((entity.getX()) <= 18.7) && ((entity.getX()) >= 17.7) && 
-                ((entity.getY()) <= 122) && ((entity.getY()) >= 121) && 
-                ((entity.getZ()) <= 95) && ((entity.getZ()) >= 91.3)) {
+            if ((entity.getX() <= 18.7) && (entity.getX() >= 17.7) && 
+                (entity.getY() <= 122) && (entity.getY() >= 121) && 
+                (entity.getZ() <= 95) && (entity.getZ() >= 91.3)) {
                 dingloop();
                 overlay1.title = `&b${entity.getName()} is at 3rd term`;
                 if (config.sendchatmessage) ChatLib.command(`party chat ${entity.getName()} is at 3rd term`);
@@ -292,12 +295,12 @@ register("step", () => {
                 }, 2000);
             }
             
-            // New EE3 (lower)
-            if (((entity.getX()) <= 3) && ((entity.getX()) >= 1.3) && 
-                ((entity.getY()) <= 109.5) && ((entity.getY()) >= 108.5) && 
-                ((entity.getZ()) <= 105.5) && ((entity.getZ()) >= 100)) {
+            // new ee3 (lower)
+            if ((entity.getX() <= 3) && (entity.getX() >= 1.3) && 
+                (entity.getY() <= 109.5) && (entity.getY() >= 108.5) && 
+                (entity.getZ() <= 105.5) && (entity.getZ() >= 100)) {
                 dingloop();
-                
+                global.sharedData.atee3 = entity.getName();
                 overlay1.title = `&b${entity.getName()} is at ee 3`;
                 if (config.sendchatmessage) ChatLib.command(`party chat ${entity.getName()} is at ee 3`);
                 doneee3 = true;
@@ -308,19 +311,18 @@ register("step", () => {
                 }, 2000);
             }
         });
-    }
+    } // self in s2
     
-    // Section 3 detection (Core area)
     if ((Player.getRenderX() <= 20) && (Player.getRenderZ() >= 49) && (!donecore)) {
         World.getAllPlayers().forEach(entity => {
             if (entity.isInvisible() || entity.getPing() !== 1) return;
             
-            // Outside core
-            if (((entity.getX()) <= 57.7) && ((entity.getX()) >= 51.3) && 
-                ((entity.getY()) <= 116) && ((entity.getY()) >= 113.5) && 
-                ((entity.getZ()) <= 53.7) && ((entity.getZ()) >= 50.7)) {
+            // outside core
+            if ((entity.getX() <= 57.7) && (entity.getX() >= 51.3) && 
+                (entity.getY() <= 116) && (entity.getY() >= 113.5) && 
+                (entity.getZ() <= 53.7) && (entity.getZ() >= 50.7)) {
                 dingloop();
-                
+                global.sharedData.atcore = entity.getName();
                 overlay1.title = `&b${entity.getName()} is outside core`;
                 if (config.sendchatmessage) ChatLib.command(`party chat ${entity.getName()} is outside core`);
                 donecore = true;
@@ -331,12 +333,12 @@ register("step", () => {
                 }, 2000);
             }
             
-            // Outside core (alternate position)
-            if ((((entity.getX()) <= 56.3) && ((entity.getX()) >= 52.7) && 
-                 ((entity.getY()) <= 116) && ((entity.getY()) >= 114.5) && 
-                 ((entity.getZ()) < 50.7) && ((entity.getZ()) >= 50))) {
+            // another outside core check
+            if ((entity.getX() <= 56.3) && (entity.getX() >= 52.7) && 
+                (entity.getY() <= 116) && (entity.getY() >= 114.5) && 
+                (entity.getZ() < 50.7) && (entity.getZ() >= 50)) {
                 dingloop();
-                
+                global.sharedData.atcore = entity.getName();
                 overlay1.title = `&b${entity.getName()} is outside core`;
                 if (config.sendchatmessage) ChatLib.command(`party chat ${entity.getName()} is outside core`);
                 donecore = true;
@@ -347,19 +349,18 @@ register("step", () => {
                 }, 2000);
             }
         });
-    }
+    } // self in s3
     
-    // Section 4 detection (Tunnel area)
     if ((Player.getRenderX() <= 90) && (Player.getRenderZ() <= 54) && (!donetunnel)) {
         World.getAllPlayers().forEach(entity => {
             if (entity.isInvisible() || entity.getPing() !== 1) return;
-            
-            // Inside core
-            if ((((entity.getX()) <= 70.999) && ((entity.getX()) >= 39) && 
-                 ((entity.getY()) <= 155.499) && ((entity.getY()) >= 112) && 
-                 ((entity.getZ()) <= 59.3) && ((entity.getZ()) >= 54))) {
+
+            // inside core
+            if ((entity.getX() <= 70.999) && (entity.getX() >= 39) && 
+                (entity.getY() <= 155.499) && (entity.getY() >= 112) && 
+                (entity.getZ() <= 59.3) && (entity.getZ() >= 54)) {
                 dingloop();
-                
+                global.sharedData.inTunnel = entity.getName();
                 overlay1.title = `&b${entity.getName()} is in tunnel`;
                 if (config.sendchatmessage) ChatLib.command(`party chat ${entity.getName()} is in tunnel`);
                 donetunnel = true;
@@ -370,5 +371,5 @@ register("step", () => {
                 }, 2000);
             }
         });
-    }
+    } // self in s4
 }).setFps(8);

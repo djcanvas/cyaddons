@@ -3,7 +3,17 @@ import { registerWhen } from "../../BloomCore/utils/Utils"
 import { data } from "./data"
 
 export const prefix = "&b[&r&ocya&r&b]&r"
+export const S2DPacketOpenWindow = Java.type("net.minecraft.network.play.server.S2DPacketOpenWindow")
+export const MouseEvent = Java.type("net.minecraftforge.client.event.MouseEvent")
+export const S2FPacketSetSlot = Java.type("net.minecraft.network.play.server.S2FPacketSetSlot")
+export const C0EPacketClickWindow = Java.type("net.minecraft.network.play.client.C0EPacketClickWindow")
 
+export function getHeldItemID() {
+    const item = Player.getHeldItem();
+    const itemId = item?.getNBT()?.get("tag")?.get("ExtraAttributes")?.getString("id");
+    return itemId;
+}
+export const sendWindowClick = (windowId, slot, clickType, actionNumber=0) => Client.sendPacket(new C0EPacketClickWindow(windowId ?? Player.getContainer().getWindowId(), slot, clickType ?? 0, 0, null, actionNumber))
 
 export function space() {
     ChatLib.chat("")
@@ -58,5 +68,21 @@ export const getRoom = (roomID=null) => {
 export const inSkyblock = () => {
     if (Scoreboard.getTitle().removeFormatting().includes("SKYBLOCK")) return true
     return false
+}
+
+export function isPlayerInBox(x1, y1, z1, x2, y2, z2) {
+    const x = Player.getX();
+    const y = Player.getY();
+    const z = Player.getZ();
+
+    return (x >= Math.min(x1, x2) && x <= Math.max(x1, x2) &&
+            y >= Math.min(y1, y2) && y <= Math.max(y1, y2) &&
+            z >= Math.min(z1, z2) && z <= Math.max(z1, z2));
+}
+
+export function rightClick() {
+    const rightClickMethod = Client.getMinecraft().getClass().getDeclaredMethod("func_147121_ag", null)
+    rightClickMethod.setAccessible(true);
+    rightClickMethod.invoke(Client.getMinecraft(), null);
 }
 

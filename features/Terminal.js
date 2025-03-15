@@ -9,12 +9,7 @@ if (!global.sharedData) {
 global.sharedData.SectionDone = false
 
 
-/*const S32PacketConfirmTransaction = Java.type("net.minecraft.network.play.server.S32PacketConfirmTransaction");
-const overlay1 = {render: null, title: "&c0&7/&a7", truetitleDONTUSE: `&6Terminals: &c1&7/&c4
-&6Levers: &a2&7/&a2
-&6Device: &cx
-&6Gate: &a✔`};
-*/
+
 function ding() {
     World.playSound("note.pling", 1, 2);
     setTimeout(() => {
@@ -48,9 +43,6 @@ const newSection = () => {
         
         let timeSection = ((Date.now() - sectionStarted) / 1000).toFixed(2)
         let Devicetime = ((Date.now() - sectionStarted) / 1000).toFixed(2)
-        //ChatLib.chat("-----------------------------------------------")
-        //ChatLib.chat(`                          &dSection ${sectionCount} completed! ${timeSection}`)
-       // ChatLib.chat("-----------------------------------------------")
         sectionStarted = Date.now()
         gateBlown = false
         deviceActivated = false
@@ -81,7 +73,40 @@ register("chat", () => {
 
 // Register for gate destruction
 
+const S45PacketTitle = Java.type("net.minecraft.network.play.server.S45PacketTitle");
+const packetTitle = (() => {
+    const listeners = [];
+    const trigger = register("packetReceived", (packet, event) => {
+        const type = packet.func_179807_a().toString();
+        const message = ChatLib.removeFormatting(packet.func_179805_b()?.func_150260_c());
+        for (let listener of listeners) {
+            listener(type, message, packet, event);
+        }
+    }).setFilteredClass(S45PacketTitle).unregister();
 
+    return {
+        addListener: (listener) => {
+            if (listeners.length === 0) trigger.register();
+            listeners.push(listener);
+        },
+        removeListener: (listener) => {
+            const index = listeners.indexOf(listener);
+            if (index === -1) return false;
+            listeners.splice(index, 1);
+            if (listeners.length === 0) trigger.unregister();
+            return true;
+        }
+    };
+})();
+function onTitle(type, message, _, event) {
+    if (type !== "SUBTITLE") return;
+    if (!/^.* completed a device! \(\d\/\d\)$/.test(message) && 
+        !/^.* activated a terminal! \(\d\/\d\)$/.test(message) && 
+        !/^.* activated a lever! \(\d\/\d\)$/.test(message) && 
+        !/^The gate will open in 5 seconds!$/.test(message) && 
+        !/^The gate has been destroyed!$/.test(message)) return;
+    cancel(event);
+}
 
 
 // Register for device actions

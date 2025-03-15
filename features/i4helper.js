@@ -133,6 +133,12 @@ function disable() {
 	trigger1.unregister();
 	trigger2.unregister();
 }
-
-if (config.i4helper) enable()
-if (!config.i4helper) disable()
+register('worldLoad', () => {
+    disable()
+})
+register("chat", () => {
+    if (config.i4helper) enable()
+}).setCriteria("[BOSS] Goldor: Who dares trespass into my domain?")
+register("chat", () => {
+    if (config.i4helper) disable()
+}).setCriteria("The Core entrance is opening!")

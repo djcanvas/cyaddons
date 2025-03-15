@@ -14,7 +14,7 @@ import {
 
 @Vigilant("cyaddons", "§5cya addons",  {
     getCategoryComparator: () => (a, b) => {
-        const categories = ["general", "chat", "notifications",'f7/m7', 'location message', 'gui positions'];
+        const categories = ["general", "secrets", "chat", "notifications",'f7/m7', 'location message', 'gui positions'];
         return categories.indexOf(a.name) - categories.indexOf(b.name);
     }
 })
@@ -34,60 +34,74 @@ class Settings {
     SectionDoneGui = new Gui()
     
     //general category
+
     @SwitchProperty({
-        name: "show clicked secrets",
-        description: `Tells you when you click on a secret by rendering a box around where the secret is.`,
+        name: "pearls",
+        description: "Automatically refills your stack of ender pearls when you have less than a specific threshold",
         category: "general",
-        subcategory: "secret clicked",
+        subcategory: "auto refill"
     })
-    showSecretClicks = false;
+    autoRefillPearls = false;
 
-    @ColorProperty({
-        name: "clicked secrets color",
-        description: "Change the highlight color of the secret when you click it.",
+    @SliderProperty({
+        name: "pearls threshold",
+        description: "Refills pearls when stack size goes under this number",
         category: "general",
-        subcategory: "secret clicked",
+        subcategory: "auto refill",
+        min: 1,
+        max: 16
     })
-    showSecretClicksColor = Color.GREEN;
+    autoRefillPearlsThreshold = 8;
 
-    @CheckboxProperty({
-        name: "clicked secrets sound",
-        description: "plays sound when secret is clicked",
-        category: "general",        
-        subcategory: "secret clicked",
-    })
-    playSoundOnSecretClick = false
-
-    @SelectorProperty({
-        name: "select secret clicked sound",
-        description: "Change the sound of secret clicks",
+    @SwitchProperty({
+        name: "jerries",
+        description: "Automatically refills your stack of inflatable jerries when you have less than a specific threshold",
         category: "general",
-        subcategory: "secret clicked",
-        options: [
-        "random.orb",     // index 0
-        "mob.blaze.hit",   // index 1
-        "note.harp", // index 2
-        "note.pling"      // index 3
-        ]
+        subcategory: "auto refill"
     })
-    secretClickSound = 0;
+    autoRefillJerries = false;
 
-    @PercentSliderProperty({
-        name: "pitch of secret click sound",
-        description: "changes pitch",
+    @SliderProperty({
+        name: "jerries threshold",
+        description: "Refills jerries when stack size goes under this number",
         category: "general",
-        subcategory: "secret clicked",
+        subcategory: "auto refill",
+        min: 1,
+        max: 64
     })
-    secretClickPitch = 100;
+    autoRefillJerriesThreshold = 32;
 
-    @PercentSliderProperty({
-        name: "volume of secret click sound",
-        description: "changes pitch",
+    @SwitchProperty({
+        name: "sp booms",
+        description: "Automatically refills your stack of superboom tnt when you have less than a specific threshold",
         category: "general",
-        subcategory: "secret clicked",
+        subcategory: "auto refill"
     })
-    secretClickVolume = 100;
+    autoRefillBooms = false;
 
+    @SliderProperty({
+        name: "sp booms threshold",
+        description: "Refills sp booms when stack size goes under this number",
+        category: "general",
+        subcategory: "auto refill",
+        min: 1,
+        max: 64
+    })
+    autoRefillBoomsThreshold = 32;
+    
+    @SwitchProperty({
+        name: "auto potion bag",
+        description: "Opens the potion bag when entering a dungeon",
+        category: "general",
+    })
+    autoOpenPotionBag = false;
+
+    @SwitchProperty({
+        name: "compact hoppity",
+        description: "Turns the three lines when you find an egg into one to make it easier if you got a new or a dupe",
+        category: "general",
+    })
+    compactHoppity = false;
 
     @SwitchProperty({
         name: "mask gui",
@@ -182,6 +196,65 @@ class Settings {
         subcategory: "blood"
     })
     BCHelper = false;
+
+    @SwitchProperty({
+        name: "hide players",
+        description: "Hides players after leap",
+        category: "general",
+    })
+    hidePlayersAfterLeap = false;
+
+    //secrets category
+
+    @SwitchProperty({
+        name: "show clicked secrets",
+        description: `Tells you when you click on a secret by rendering a box around where the secret is.`,
+        category: "secrets",
+    })
+    showSecretClicks = false;
+
+    @ColorProperty({
+        name: "clicked secrets color",
+        description: "Change the highlight color of the secret when you click it.",
+        category: "secrets",
+    })
+    showSecretClicksColor = Color.GREEN;
+
+    @CheckboxProperty({
+        name: "clicked secrets sound",
+        description: "plays sound when secret is clicked",
+        category: "secrets",
+    })
+    playSoundOnSecretClick = false
+
+    @SelectorProperty({
+        name: "select secret clicked sound",
+        description: "Change the sound of secret clicks",
+        category: "secrets",
+        options: [
+        "random.orb",     // index 0
+        "mob.blaze.hit",   // index 1
+        "note.harp", // index 2
+        "note.pling"      // index 3
+        ]
+    })
+    secretClickSound = 0;
+
+    @PercentSliderProperty({
+        name: "pitch of secret click sound",
+        description: "changes pitch",
+        category: "secrets",
+    })
+    secretClickPitch = 100;
+
+    @PercentSliderProperty({
+        name: "volume of secret click sound",
+        description: "changes pitch",
+        category: "secrets",
+    })
+    secretClickVolume = 100;
+
+
     //chat category
 
     @SwitchProperty({
@@ -294,6 +367,14 @@ class Settings {
     CrystalInfo = false;
 
     // Location Message Category
+
+    @SwitchProperty({
+		name: "fast leap",
+		description: "Fast leap to ppl at ees or to the specific role",
+		category: "location message"
+	})
+	FastLeap = false;
+
     @SwitchProperty({
 		name: "early enter alert",
 		description: "Alerts you when someone is at an early enter location using player position\nWill only work if you are within 4 chunks of the ee location",
@@ -562,6 +643,9 @@ class Settings {
         this.addDependency("select secret clicked sound", "clicked secrets sound");
         this.addDependency("pitch of secret click sound", "clicked secrets sound");
         this.addDependency("volume of secret click sound", "clicked secrets sound");
+        this.addDependency("pearls threshold", "pearls");
+        this.addDependency("jerries threshold", "jerries");
+        this.addDependency("sp booms threshold", "sp booms");
     }
 }
 
