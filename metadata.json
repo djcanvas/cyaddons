@@ -1,0 +1,14 @@
+{
+    "name": "&o&5cyaddons",
+    "creator": "hwtg/b0b",
+    "description": "&0cya later",
+    "version": "1.0.0",
+    "entry": "index.js",
+    "requires": [
+        "PogData",
+        "Vigilance",
+        "BloomCore",
+        "RenderLib",
+        "RenderLibV2"
+    ]
+  }
