@@ -19,13 +19,13 @@
 [general]
 	auto_potion_bag = false
 	hide_players = true
-	compact_hoppity = false
+	compact_hoppity = true
 
 	[general.auto_refill]
-		sp_booms = false
+		sp_booms = true
 		sp_booms_threshold = 32
 		jerries = false
-		pearls = false
+		pearls = true
 		jerries_threshold = 32
 		pearls_threshold = 8
 
@@ -39,15 +39,15 @@
 		bc_helper = false
 
 [chat]
-	chat_cleaner = false
-	auto_chat_p = false
+	chat_cleaner = true
+	auto_chat_p = true
 
 [secrets]
-	show_clicked_secrets = false
-	clicked_secrets_sound = false
-	pitch_of_secret_click_sound = 100.0
-	select_secret_clicked_sound = 0
-	volume_of_secret_click_sound = 100.0
+	show_clicked_secrets = true
+	clicked_secrets_sound = true
+	pitch_of_secret_click_sound = 1.0
+	select_secret_clicked_sound = 3
+	volume_of_secret_click_sound = 1.0
 	clicked_secrets_color = "255,0,255,0"
 
 [notifications]
@@ -57,13 +57,35 @@
 	cloak = false
 	key_sound = false
 	blood = false
-	key = false
+	key = true
 	pet = false
 
 ["f7/m7"]
 	i4helper = false
+	goldor_tick_timer = false
 	predev_timer = false
+	lever_aura = false
+	melody_warning = false
+	p3_start_timer = false
 	terminal_gui = false
+	golder_tick_timer = false
 	crystal_info = false
 	wither_stuck_title = false
+
+	["f7/m7".p3]
+		i4helper = false
+		goldor_tick_timer = false
+		esp_color = "255,0,255,0"
+		esp = false
+		lever_aura = false
+		melody_warning = false
+		p3_start_timer = false
+		terminal_gui = false
+		timestamps = false
+
+	["f7/m7".terminals]
+		esp_color = "255,0,255,0"
+		esp = false
+		terminal_gui = false
+		timestamps = false
 

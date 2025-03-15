@@ -60,5 +60,22 @@ export const data = new PogObject("cyaddons", {
         y: Renderer.screen.getHeight() / 2 + 10,
         scale: 3
     },
+    p3StartTimert: {
+        x: Renderer.screen.getWidth() / 2,
+        y: Renderer.screen.getHeight() / 2 + 10,
+        scale: 3
+    },
+    goldorTickTimer: {
+        x: Renderer.screen.getWidth() / 2,
+        y: Renderer.screen.getHeight() / 2 + 10,
+        scale: 3
+    },
+    MelodyWarning: {
+        x: Renderer.screen.getWidth() / 2,
+        y: Renderer.screen.getHeight() / 2 + 10,
+        scale: 3
+    },
+
+
     key: ""
 }, "data.json")

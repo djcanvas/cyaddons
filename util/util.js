@@ -1,7 +1,10 @@
 import { getScoreboard, removeUnicode } from "../../BloomCore/utils/Utils"
 import { registerWhen } from "../../BloomCore/utils/Utils"
 import { data } from "./data"
-
+export const Vec3 = Java.type("net.minecraft.util.Vec3")
+export const C0APacketAnimation = Java.type("net.minecraft.network.play.client.C0APacketAnimation");
+export const EnumFacing = Java.type('net.minecraft.util.EnumFacing')
+export const MovingObjectPosition = Java.type("net.minecraft.util.MovingObjectPosition")
 export const prefix = "&b[&r&ocya&r&b]&r"
 export const S2DPacketOpenWindow = Java.type("net.minecraft.network.play.server.S2DPacketOpenWindow")
 export const MouseEvent = Java.type("net.minecraftforge.client.event.MouseEvent")

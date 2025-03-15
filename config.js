@@ -32,6 +32,9 @@ class Settings {
     CloakGui = new Gui()
     AutoPetGui = new Gui()
     SectionDoneGui = new Gui()
+    p3StartTimerGui = new Gui()
+    goldorTickTimerGui = new Gui()
+    MelodyWarningGui = new Gui()
     
     //general category
 
@@ -334,9 +337,42 @@ class Settings {
     @SwitchProperty({
         name: "i4helper",
         description: "Shows points to aim at i4",
-        category: "f7/m7"
+        category: "f7/m7",
+        subcategory: "p3"
     })
     i4helper = false
+
+    @SwitchProperty({
+        name: "lever aura",
+        description: "Automatically does levers in p3 for you",
+        category: "f7/m7",
+        subcategory: "p3"
+    })
+    LeverAura = false
+
+    @SwitchProperty({
+        name: "melody warning",
+        description: "Shows who has melody and how far along they are",
+        category: "f7/m7",
+        subcategory: "p3"
+    })
+    MelodyWarning = false
+
+    @SwitchProperty({
+        name: "goldor tick timer",
+        description: "Shows death ticks in p3",
+        category: "f7/m7",
+        subcategory: "p3"
+    })
+    goldorTickTimer = false
+
+    @SwitchProperty({
+        name: "p3 start timer",
+        description: "Shows when p3 starts",
+        category: "f7/m7",
+        subcategory: "p3"
+    })
+    p3StartTimer = false
 
     @SwitchProperty({
         name: "wither stuck title",
@@ -345,16 +381,43 @@ class Settings {
     })
     WitherStuck = false
 
-     @SwitchProperty({
+    @SwitchProperty({
         name: "terminal gui",
         description: "Shows how many terms/levers/dev have been completed",
-        category: "f7/m7"
+        category: "f7/m7",
+        subcategory: "p3"
     })
     terminal = false
 
     @SwitchProperty({
+        name: "timestamps",
+        description: "Shows when each term/dev/lever has been completed",
+        category: "f7/m7",
+        subcategory: "p3"
+    })
+    terminalTimestamps = false
+
+    @SwitchProperty({
+        name: "esp",
+        description: "Draws esp box for terms and levers",
+        category: "f7/m7",
+        subcategory: "p3"
+    })
+    TerminalESP = false
+
+    @ColorProperty({
+        name: "esp color",
+        description: "Change the color of the esp",
+        category: "f7/m7",
+        subcategory: "p3"
+    })
+    ESPColor = Color.GREEN;
+
+
+
+    @SwitchProperty({
         name: "predev timer",
-        description: "Shows how long ur predev took, starts with boss and ends with leap",
+        description: "Shows how long ur predev took. Starts with boss and ends with leap",
         category: "f7/m7"
     })
     PredevTimer = false;
@@ -588,6 +651,36 @@ class Settings {
         this.SectionDoneGui.open()
     };
 
+    @ButtonProperty({
+        name: "move p3 start timer",
+        description: "Scroll to change scale, middle click to reset",
+        category: "gui positions",
+        placeholder: "Move"
+    })
+    Movep3StartTimerGui() {
+        this.p3StartTimerGui.open()
+    };
+
+    @ButtonProperty({
+        name: "move goldor tick timer",
+        description: "Scroll to change scale, middle click to reset",
+        category: "gui positions",
+        placeholder: "Move"
+    })
+    MovegoldorTickTimerGui() {
+        this.goldorTickTimerGui.open()
+    };
+
+    @ButtonProperty({
+        name: "move melody warning",
+        description: "Scroll to change scale, middle click to reset",
+        category: "gui positions",
+        placeholder: "Move"
+    })
+    MoveMelodyWarningGui() {
+        this.MelodyWarningGui.open()
+    };
+
    
       
     constructor() {
@@ -646,6 +739,10 @@ class Settings {
         this.addDependency("pearls threshold", "pearls");
         this.addDependency("jerries threshold", "jerries");
         this.addDependency("sp booms threshold", "sp booms");
+        this.addDependency("esp color", "esp")
+        this.addDependency("move p3 start timer", "p3 start timer")
+        this.addDependency("move goldor tick timer", "goldor tick timer")
+        this.addDependency("move melody warning", "melody warning")
     }
 }
 
