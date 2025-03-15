@@ -1,1 +1,1 @@
-cyaddons is a ct modulefor hypixel skyblock dungeons 
+cyaddons is a ct module for hypixel skyblock dungeons 
