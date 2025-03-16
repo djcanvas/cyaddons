@@ -1,21 +1,35 @@
 import config from "../config";
 import { data } from "../util/data";
-
 // Java type imports
 const S2DPacketOpenWindow = Java.type("net.minecraft.network.play.server.S2DPacketOpenWindow");
-
 // Variables
 let title = " ";
 let text1;
 let stopautopetdisplay = false;
+let savedTitle = " ";
 
 // Setup Text render
 register("step", () => {
+    // Show test title if config GUI is open
+    if (config.AutoPetGui.isOpen()) {
+        if (title !== "&eTEST TITLE") {
+            savedTitle = title; // Save the current title
+            title = "&eTEST TITLE"; // Set test title
+            overlayregister1.register(); // Make sure overlay is visible
+        }
+    } else if (title === "&eTEST TITLE") {
+        // Restore original title when GUI is closed
+        title = savedTitle;
+        if (title === " " || title === "") {
+            overlayregister1.unregister();
+        }
+    }
+
     text1 = new Text(
         title, 
         data.AutoPet.x,
         data.AutoPet.y
-    ).setAlign("CENTER").setShadow(true).setScale(2);
+    ).setAlign("CENTER").setShadow(true).setScale(data.AutoPet.scale || 2);
 }).setFps(10);
 
 // Render registration
@@ -72,6 +86,7 @@ register("chat", (level, petName, event) => {
 // Reset on world unload
 register("worldUnload", () => {
     title = " ";
+    savedTitle = " ";
     stopautopetdisplay = false;
     overlayregister1.unregister();
 });

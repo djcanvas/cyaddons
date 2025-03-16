@@ -17,7 +17,7 @@ register("step", () => {
 
 register("step", () => {
     if (!config.autoRefillBooms) return
-    const BoomStack = Player.getInventory().getItems().find(a => a?.getName() == "§9Superboom TNT")
+    const BoomStack = Player.getInventory()?.getItems()?.find(a => a?.getName() == "§9Superboom TNT")
     
         if (BoomStack) {
             let stackSize = BoomStack.getStackSize()

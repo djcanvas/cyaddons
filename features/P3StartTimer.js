@@ -10,21 +10,23 @@ register("chat", () => {
 }).setCriteria("[BOSS] Storm: I should have known that I stood no chance.")
 
 registerWhen(register("renderOverlay", () => {
+    if (config.p3StartTimerGui.isOpen()) {
+        timeText.setString("5.20")
+        timeText.setScale(data.p3StartTimer.scale)
+        timeText.draw(data.p3StartTimer.x, data.p3StartTimer.y)
+    } else {
+
+    
     const remaining = (5.2 - (Date.now() - startTime ?? 0) / 1000).toFixed(2)
     if (remaining < 0) return
 
     timeText.setString(remaining)
     timeText.setScale(data.p3StartTimer.scale)
     timeText.draw(data.p3StartTimer.x, data.p3StartTimer.y)
-}), () => config.p3StartTimer && startTime)
-
-register("renderOverlay", () => {
-    if (config.p3StartTimerGui.isOpen()) {
-        timeText.setString("5.20")
-        timeText.setScale(data.p3StartTimer.scale)
-        timeText.draw(data.p3StartTimer.x, data.p3StartTimer.y)
     }
-})
+}), () => (config.p3StartTimer && startTime) || config.p3StartTimerGui.isOpen())
+
+
 
 register("dragged", (dx, dy, x, y, bn) => {
     if (!config.p3StartTimerGui.isOpen() || bn == 2) return

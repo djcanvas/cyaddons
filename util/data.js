@@ -60,7 +60,7 @@ export const data = new PogObject("cyaddons", {
         y: Renderer.screen.getHeight() / 2 + 10,
         scale: 3
     },
-    p3StartTimert: {
+    p3StartTimer: {
         x: Renderer.screen.getWidth() / 2,
         y: Renderer.screen.getHeight() / 2 + 10,
         scale: 3
