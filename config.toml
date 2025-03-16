@@ -17,13 +17,13 @@
 	tunnel = true
 
 [general]
-	auto_potion_bag = true
+	auto_potion_bag = false
 	hide_players = true
 	compact_hoppity = true
 
 	[general.auto_refill]
 		sp_booms = true
-		sp_booms_threshold = 52
+		sp_booms_threshold = 24
 		jerries = false
 		pearls = true
 		jerries_threshold = 32
@@ -48,7 +48,7 @@
 	pitch_of_secret_click_sound = 1.0
 	select_secret_clicked_sound = 3
 	volume_of_secret_click_sound = 1.0
-	clicked_secrets_color = "255,0,255,0"
+	clicked_secrets_color = "255,0,71,255"
 
 [notifications]
 	wish = true
