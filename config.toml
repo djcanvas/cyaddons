@@ -55,7 +55,7 @@
 	section_done = true
 	bat = true
 	cloak = true
-	key_sound = false
+	key_sound = true
 	blood = true
 	key = true
 	pet = true
