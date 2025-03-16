@@ -204,14 +204,12 @@ registerWhen(register("soundPlay", (pos, name, vol, pitch, category, event) => {
 
 const drops = ["item.item.monsterPlacer", "item.item.bone", "item.item.skull.char", "item.tile.weightedPlate_heavy", "item.item.enderPearl", "item.item.potion", "item.item.skull.char", "item.item.shears", "item.item.paper", "item.tile.tripWireSource"]
 
-register(Java.type("me.odinmain.events.impl.EntityLeaveWorldEvent"), (event) => { // Item pickup listener
-    // Add missing dungeon context validation
+// Replace the EntityLeaveWorldEvent with SecretPickupEvent.Item
+register(Java.type("me.odinmain.events.impl.SecretPickupEvent$Item"), (event) => { // Item pickup listener
     if (!config.showSecretClicks || !Dungeon.inDungeon) return;
     
     try {
         const entity = event.getEntity();
-        if (!(entity instanceof net.minecraft.entity.item.EntityItem)) return;
-        
         const wrappedEntity = new Entity(entity);
         const name = wrappedEntity.getName();
         if (!drops.includes(name)) return;
@@ -225,23 +223,14 @@ register(Java.type("me.odinmain.events.impl.EntityLeaveWorldEvent"), (event) => 
             return;
         }
         
-        // Extract position from entity name if possible
-        const entityStr = entity.toString();
+        // Get position from the entity
+        const x = entity.posX;
+        const y = entity.posY;
+        const z = entity.posZ;
         
-        // Parse coordinates from the string
-        const xMatch = entityStr.match(/x=(-?[0-9.]+)/);
-        const yMatch = entityStr.match(/y=(-?[0-9.]+)/);
-        const zMatch = entityStr.match(/z=(-?[0-9.]+)/);
-        
-        if (xMatch && yMatch && zMatch) {
-            const x = parseFloat(xMatch[1]);
-            const y = parseFloat(yMatch[1]);
-            const z = parseFloat(zMatch[1]);
-            
-            // Validate coordinates before highlighting
-            if (isValidCoordinate(x) && isValidCoordinate(y) && isValidCoordinate(z)) {
-                highlightEntity(x, y, z, "item", 0.5, 0.5);
-            }
+        // Validate coordinates before highlighting
+        if (isValidCoordinate(x) && isValidCoordinate(y) && isValidCoordinate(z)) {
+            highlightEntity(x, y, z, "item", 0.5, 0.5);
         }
     } catch (e) {
         // Silently handle any errors to prevent disruption
