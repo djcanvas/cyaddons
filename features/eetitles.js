@@ -195,7 +195,7 @@ register("step", () => {
                 if ((entity.getX() <= 80.3) && (entity.getX() >= 67.7) && 
                     (entity.getY() <= 113) && (entity.getY() >= 108.5) && 
                     (entity.getZ() <= 128.3) && (entity.getZ() >= 125.7)) {
-                    barknoises();
+                    
                     done1st = true;
                 }
             } 
@@ -205,7 +205,7 @@ register("step", () => {
                 if ((entity.getX() <= 70.3) && (entity.getX() >= 67.7) && 
                     (entity.getY() <= 113) && (entity.getY() >= 108.5) && 
                     (entity.getZ() < 125.7) && (entity.getZ() >= 121.987)) {
-                    barknoises();
+                    
                     done1st = true;
                 }
             } 

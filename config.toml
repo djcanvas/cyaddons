@@ -45,8 +45,8 @@
 [secrets]
 	show_clicked_secrets = true
 	clicked_secrets_sound = true
-	pitch_of_secret_click_sound = 1.0
-	select_secret_clicked_sound = 3
+	pitch_of_secret_click_sound = 0.86153847
+	select_secret_clicked_sound = 1
 	volume_of_secret_click_sound = 1.0
 	clicked_secrets_color = "255,0,255,194"
 

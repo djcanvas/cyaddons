@@ -22,7 +22,7 @@ registerWhen(register("chat", () => {
 }).setCriteria("⚠ Maxor is enraged! ⚠"), () => config.Wish);
 
 registerWhen(onChatPacket(() => {
-    let selectedClass = getClass(Player.getName());
+    let selectedClass = getOwnClass(Player.getName());
     if (selectedClass == "Healer") {
         ShowWish = true;
         ChatLib.chat(`${prefix} &6WISH`);

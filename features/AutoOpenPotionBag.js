@@ -15,3 +15,7 @@ registerWhen(register("tick", () => {
         bagOpened = true
     }
 }), () => config.autoOpenPotionBag)
+
+const Command = register("command", () => {
+    ChatLib.command("potionbag")
+}).setName("pb")

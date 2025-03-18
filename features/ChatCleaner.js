@@ -1,4 +1,40 @@
 import config from "../config";
+import RenderLib from '../../RenderLib';
+import { isInDungeon } from "../util/util"
+import { registerWhen } from "../../BloomCore/utils/Utils"
+import { getOwnClass } from "../util/player"
+
+
+
+
+// Main event to hide bonemeal on armor stands
+const onRenderEntity = registerWhen(
+    register("renderEntity", (entity, pos, partialTicks, event) => {
+        try {
+            // Check if it's an armor stand by examining the entity's string representation
+            const entityStr = entity.toString();
+            if (!entityStr.includes("dyePowder.white")) return;
+
+            // Check distance
+            const playerPos = { x: Player.getX(), y: Player.getY(), z: Player.getZ() };
+
+            if (entity.distanceTo(playerPos.x, playerPos.y, playerPos.z) > 6) return;
+
+            cancel(event);
+        } catch (e) {
+            ChatLib.chat(`&cError while hiding bonemeal: ${e}`);
+        }
+    }),
+    () => (isInDungeon() && (getOwnClass() == "Archer"))
+);
+
+
+
+
+
+
+
+
 
 // List of chat messages to filter
 const uselessMsgs = [

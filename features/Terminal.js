@@ -108,6 +108,13 @@ function onTitle(type, message, _, event) {
     cancel(event);
 }
 
+register("renderTitle", (title, subtitle, event) => {
+    if(!config().terminal) return
+    if(subtitle.includes("activated a terminal!")) cancel(event)
+    if(subtitle.includes("completed a device!")) cancel(event)
+    if(subtitle.includes("activated a lever!")) cancel(event)
+})
+
 
 // Register for device actions
 registerWhen(register("chat", (name, completed, total) => {
